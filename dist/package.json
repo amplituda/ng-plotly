@@ -2,14 +2,6 @@
   "name": "@n-fuse/ng-plotly",
   "version": "0.1.0",
   "description": "An Angular wrapper component for Plotly.js.",
-  "scripts": {
-    "lint": "tslint './src/**/*.ts'",
-    "dev": "cross-env TARGET=development webpack-serve --config webpack.config.js",
-    "clean": "npm-run-all build:clean",
-    "test": "cross-env TARGET=testing karma start --single-run",
-    "build": "ng-packagr -p package.json",
-    "publish": "git-directory-deploy --directory dist --branch dist"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/n-fuse/ng-plotly.git"
@@ -88,10 +80,17 @@
     "plotly.js": "^1.37.1"
   },
   "$schema": "./node_modules/ng-packagr/package.schema.json",
-  "ngPackage": {
-    "lib": {
-      "entryFile": "src/public_api.ts",
-      "umdId": "nfLib"
-    }
+  "main": "bundles/n-fuse-ng-plotly.umd.js",
+  "module": "fesm5/n-fuse-ng-plotly.js",
+  "es2015": "fesm2015/n-fuse-ng-plotly.js",
+  "esm5": "esm5/n-fuse-ng-plotly.js",
+  "esm2015": "esm2015/n-fuse-ng-plotly.js",
+  "fesm5": "fesm5/n-fuse-ng-plotly.js",
+  "fesm2015": "fesm2015/n-fuse-ng-plotly.js",
+  "typings": "n-fuse-ng-plotly.d.ts",
+  "metadata": "n-fuse-ng-plotly.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
   }
 }

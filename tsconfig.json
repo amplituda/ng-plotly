@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "jasmine"
+    ],
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost",
+      "es2016.array.include"
+    ],
+    "paths": {
+      "@n-fuse/ng-lib": ["src/public_api.ts"],
+    },
+    "baseUrl": "."
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./demo/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

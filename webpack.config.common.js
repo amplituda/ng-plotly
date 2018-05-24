@@ -46,8 +46,6 @@ const CSS_LOADER_ALIAS = {
 
 module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, publicPath = '' }) {
 
-  console.log(1, path.join(appFolder, 'index.html'))
-
   let mode;
   let devtool;
   let minify;

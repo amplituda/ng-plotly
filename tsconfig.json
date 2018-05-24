@@ -22,7 +22,7 @@
       "es2016.array.include"
     ],
     "paths": {
-      "@n-fuse/ng-lib": ["src/public_api.ts"],
+      "@n-fuse/ng-plotly": ["src/public_api.ts"],
     },
     "baseUrl": "."
   },

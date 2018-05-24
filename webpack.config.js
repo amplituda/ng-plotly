@@ -9,7 +9,7 @@ const root = (__path = '.') => path.join(__dirname, __path);
 module.exports = wcc({
   target: process.env.TARGET, 
   appFolder: root('demo'),
-  sourceFolders: [root('src')],
+  srcFolders: [root('src')],
   outputFolder: root('demo_dist')
 });
 

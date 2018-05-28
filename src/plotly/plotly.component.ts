@@ -19,6 +19,8 @@ export const PlotlyEvent = {
   Deselect: 'plotly_deselect',
 };
 
+const isWebkit: boolean = 'WebkitAppearance' in document.documentElement.style;
+
 const ResizeEvent: string = 'resize';
 
 const PlotlyParameter = {
@@ -59,7 +61,7 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private tag: string;
 
-  private resizing: NodeJS.Timer;
+  private receivedResize: boolean = false;
   private resizeHandler: EventListenerObject;
 
   private changeAction: ChangeAction;
@@ -68,7 +70,6 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
   public afterPlot: boolean = false;
 
   @Input() private debug: boolean = false;
-  @Input() private onResizeTimeOut: number = 200;
 
   @Input() public plotId: string = '';
   @Input() public plotClass: string = '';
@@ -92,11 +93,16 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
     // https://stackoverflow.com/questions/5534363/why-does-the-jquery-resize-event-fire-twice
     this.resizeHandler = (() => {
       const tag: string = `${this.tag}.resizeHandler()`;
-      if (this.resizing) {
-        if (this.debug) console.log(tag, `clearTimeout(${this.resizing})`);
-        clearTimeout(this.resizing);
+      if (isWebkit) {
+        if (this.receivedResize) {
+          this.resize();
+          this.receivedResize = false;
+        } else {
+          this.receivedResize = true;
+        }
+      } else {
+        this.resize();
       }
-      this.resizing = setTimeout(() => this.resize(), this.onResizeTimeOut);
     }).bind(this);
   }
 

@@ -4,7 +4,7 @@ const { ProgressPlugin, ContextReplacementPlugin } = require('webpack');
 
 const { AngularCompilerPlugin } = require('@ngtools/webpack');
 const { PurifyPlugin } = require('@angular-devkit/build-optimizer');
-const CopyWebpackPlugin  = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -59,7 +59,7 @@ module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, pub
 
   if (target === 'development') {
     mode = 'development';
-    devtool = undefined;
+    devtool = 'source-map'; // 'cheap-eval-source-map',
     minify = false;
     tsLoader = 'ngtools';
     replaceEnvFile = false;
@@ -78,7 +78,7 @@ module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, pub
     };
   } else if (target === 'production') {
     mode = 'production';
-    devtool = 'cheap-eval-source-map';    
+    devtool = 'cheap-eval-source-map';
     minify = true;
     tsLoader = 'ngtools';
     replaceEnvFile = 'prod';
@@ -98,7 +98,7 @@ module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, pub
     };
   } else if (target === 'testing') {
     mode = 'none';
-    devtool = 'cheap-eval-source-map';    
+    devtool = 'cheap-eval-source-map';
     minify = false;
     tsLoader = 'atl';
     replaceEnvFile = false;
@@ -125,7 +125,7 @@ module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, pub
         {
           loader: '@angular-devkit/build-optimizer/webpack-loader',
           options: {
-            sourceMap: false
+            sourceMap: true
           }
         },
         {
@@ -170,6 +170,19 @@ module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, pub
     },
     module: {
       rules: [
+        //   https://github.com/babel/babel-loader
+        // {
+        //   test: /\.js$/,
+        //   include: [
+
+        //   ],
+        //   use: {
+        //     loader: 'babel-loader',
+        //     options: {
+        //       presets: ['@babel/preset-env']
+        //     }
+        //   }
+        // },
         ...RULES,
         // The component styl files are stringified to work with the ngc loader
         {
@@ -226,24 +239,24 @@ module.exports = function wcc({ target, appFolder, outputFolder, srcFolders, pub
           include: [path.join(appFolder, 'styles')],
           use: [
             extractCSS ? MiniCssExtractPlugin.loader : 'style-loader',
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                  alias: CSS_LOADER_ALIAS,
-                  minimize: minify
-                }
-              },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  ident: 'postcss',
-                  parser: 'sugarss',
-                  plugins: POSTCSS_PLUGINS,
-                  sourceMap: false
-                }
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+                alias: CSS_LOADER_ALIAS,
+                minimize: minify
               }
-            ]
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                ident: 'postcss',
+                parser: 'sugarss',
+                plugins: POSTCSS_PLUGINS,
+                sourceMap: false
+              }
+            }
+          ]
         },
         // TODO: Remove - Ignores System.import warning in angular module
         { test: /[\/\\]@angular[\/\\].+\.js$/, parser: { system: true } },

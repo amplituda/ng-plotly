@@ -212,6 +212,7 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
     this.removeEventListeners();
 
     this.plot = document.getElementById(this.plotId);
+    if (!this.plot) return;
 
     if (this.width) {
       this.plot.style.width = this.width + '%';
@@ -272,7 +273,8 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
     const tag: string = `${this.tag}.addTraces()`;
     if (this.debug) console.log(tag, 'traces:', traces);
     if (this.debug) console.log(tag, 'index:', index);
-    return Plotly.addTraces(this.plot, traces, index);
+    return index === undefined ? Plotly.addTraces(this.plot, traces) :
+      Plotly.addTraces(this.plot, traces, index);
   }
 
   public async deleteTraces(traces: number | number[]): Promise<any> {

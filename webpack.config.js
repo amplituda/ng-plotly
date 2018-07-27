@@ -6,11 +6,20 @@ const wcc = require('./webpack.config.common');
 
 const root = (__path = '.') => path.join(__dirname, __path);
 
-module.exports = wcc({
-  target: process.env.TARGET, 
+let config = wcc({
+  target: process.env.TARGET,
   appFolder: root('demo'),
   srcFolders: [root('src')],
   outputFolder: root('demo_dist')
+});
+
+module.exports = merge(config, {
+  resolve: {
+    alias: {
+      'plotly.js': path.resolve(__dirname, 'node_modules/plotly.js/dist/plotly.js'), // Plotly.js fix
+      // 'loglevelnext': path.resolve(__dirname, 'node_modules/loglevelnext/dist/loglevelnext.js')
+    },
+  }
 });
 
 if (process.env.WEBPACK_SERVE) {

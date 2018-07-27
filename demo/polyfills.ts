@@ -18,6 +18,14 @@
  * BROWSER POLYFILLS
  */
 
+// Core-js Symbol import didn't fix 'loglevelnext',
+// nor adding it to the webpack babel-loader include,
+// even if adding as a dependency.
+//
+import 'babel-polyfill';
+//
+
+
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
 // import 'core-js/es6/symbol';
 // import 'core-js/es6/object';
@@ -43,8 +51,11 @@
 
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es7/reflect';
+// import 'core-js/es7/reflect';
 
+//
+// import 'core-js/es7/array';
+//
 
 /**
  * Required to support Web Animations `@angular/platform-browser/animations`.

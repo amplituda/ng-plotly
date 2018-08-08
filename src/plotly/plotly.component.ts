@@ -229,20 +229,27 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (this.debug) console.log(tag, 'this.layout:', this.layout);
     // if (this.debug) console.log(tag, 'this.configuration:', this.configuration);
     // if (this.debug) console.log(tag, 'this.frames:', this.frames);
-    await Plotly.newPlot(this.plot, {
+
+    const resizePlot: boolean = !!(this.width || this.height);
+    if (this.debug) console.log(tag, { resizePlot });
+
+    const newPlotPromise: Promise<any> = Plotly.newPlot(this.plot, {
       data: this.data,
       layout: this.layout,
       config: this.configuration,
       frames: this.frames,
     });
 
-    if (this.width || this.height) {
+    // If the plot will resize, attach the event listeners after the initial afterPlot.
+    if (resizePlot) await newPlotPromise;
+
+    this.attachEventListeners(this.plot, this.events);
+
+    if (resizePlot) {
       if (this.debug) console.log(tag, 'resizing');
       await this.resize();
       this.afterPlot = true;
     }
-
-    this.attachEventListeners(this.plot, this.events);
 
     return;
   }

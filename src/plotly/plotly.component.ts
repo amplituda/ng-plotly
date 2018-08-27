@@ -286,7 +286,7 @@ export class PlotlyComponent implements OnInit, AfterViewInit, OnDestroy {
   public async deleteTraces(traces: number | number[]): Promise<any> {
     const tag: string = `${this.tag}.deleteTraces()`;
     if (this.debug) console.log(tag, 'traces:', traces);
-    Plotly.deleteTraces(this.plot, traces);
+    return Plotly.deleteTraces(this.plot, traces);
   }
 
   public async animate(update: any, animation: any): Promise<any> {
